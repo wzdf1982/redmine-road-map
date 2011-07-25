@@ -1,0 +1,27 @@
+<% javascript_tag :defer => "defer" do %>
+    var ds = document.getElementsByClassName('related-issues')[0];
+    ds.style.display = 'none';
+<% end %>
+
+
+<%if (issues = @issues_by_version[version]) && issues.size > 0 %>
+ <div id="issue_tree" class="autoscroll">
+      <table class="list roadmap-issues">
+              <caption><%= l(:label_related_issues) %></caption>
+              <thead>
+                   <th width="120px" align="left">Issue</th>
+                   <th width="80px">Priority</th>
+                   <th align="left">Subject</th>
+              <thead>
+  
+              <tbody>
+                    <% root_issues = issues.select {|x| x.root?} %>
+
+                    <% root_issues.each do |root| %>
+                          <%= render_descendants_tree(root, issues) %>
+                    <% end %>
+              </tbody>
+        </table>
+      
+   </div>
+<% end %>
